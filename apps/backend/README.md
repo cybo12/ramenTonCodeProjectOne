@@ -103,12 +103,12 @@ uv add --dev package-name
 # Exécuter une commande dans l'env
 uv run python app/main.py
 uv run uvicorn app.main:app --reload
-uv run pytest
-uv run ruff check .
-uv run black .
 
-# Accéder à un shell interactif
-uv run python
+# Outils de développement (avec uvx - aucune installation nécessaire)
+uvx pytest
+uvx ruff check .
+uvx black .
+uvx mypy app/
 ```
 
 ---
@@ -174,16 +174,16 @@ app/
 
 ```bash
 # Exécuter tous les tests
-uv run pytest
+uvx pytest
 
 # Avec couverture
-uv run pytest --cov=app
+uvx pytest --cov=app
 
 # En mode verbose
-uv run pytest -v
+uvx pytest -v
 
 # Exécuter un fichier test spécifique
-uv run pytest tests/test_items.py
+uvx pytest tests/test_items.py
 ```
 
 ---
@@ -192,16 +192,16 @@ uv run pytest tests/test_items.py
 
 ```bash
 # Vérifier le style de code
-uv run ruff check .
+uvx ruff check .
 
 # Corriger automatiquement les problèmes
-uv run ruff check . --fix
+uvx ruff check . --fix
 
 # Formater avec Black
-uv run black .
+uvx black .
 
 # Type checking
-uv run mypy app/
+uvx mypy app/
 ```
 
 ---
@@ -210,13 +210,13 @@ uv run mypy app/
 
 ```bash
 # Créer une nouvelle migration
-uv run alembic revision --autogenerate -m "Description du changement"
+uvx alembic revision --autogenerate -m "Description du changement"
 
 # Appliquer les migrations
-uv run alembic upgrade head
+uvx alembic upgrade head
 
 # Revenir en arrière
-uv run alembic downgrade -1
+uvx alembic downgrade -1
 ```
 
 ---

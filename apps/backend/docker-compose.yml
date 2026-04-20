@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ramen-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/ramen_dev
+      - ENV=development
+      - DEBUG=True
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - ./app:/app/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - ramen-network
+
+  db:
+    image: postgres:16-alpine
+    container_name: ramen-db
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=ramen_dev
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ramen-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: ramen-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - ramen-network
+
+  adminer:
+    image: adminer:latest
+    container_name: ramen-adminer
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    networks:
+      - ramen-network
+
+volumes:
+  postgres_data:
+
+networks:
+  ramen-network:
+    driver: bridge

@@ -1,0 +1,3 @@
+# Namespaces
+
+Kubernetes namespaces.

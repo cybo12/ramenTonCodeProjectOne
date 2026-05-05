@@ -1,6 +1,6 @@
 # Backend - Ramen API
 
-API REST moderne avec FastAPI, SQLAlchemy et Python 3.14.
+API REST moderne avec FastAPI et SQLModel (Python 3.14).
 
 ## 🚀 Stack Technologique
 
@@ -11,12 +11,12 @@ API REST moderne avec FastAPI, SQLAlchemy et Python 3.14.
 - **Build System** : Hatchling (PEP 517/518)
 
 ### ORM & Database
-- **SQLAlchemy** 2.0+ - ORM moderne avec typing natif
+- **SQLModel** 0.0.14+ - Fusion SQLAlchemy + Pydantic (un seul modèle pour tout)
 - **Alembic** - Migrations de base de données
 - **PostgreSQL** 16 - Base de données relationnelle
 
 ### Validation & Config
-- **Pydantic** 2.0+ - Validation de données et sérialisation
+- **SQLModel Pydantic** - Validation de données native dans les modèles
 - **Pydantic Settings** - Gestion des configuration
 
 ### Outils & Utilitaires
@@ -110,10 +110,7 @@ uvx ruff check .
 uvx black .
 uvx mypy app/
 ```
-
 ---
-
-## 🏃 Démarrer l'API
 
 ### Mode développement (avec hot-reload)
 
@@ -136,37 +133,6 @@ docker run -p 8000:8000 backend:latest
 uv run uvicorn app.main:app --host 0.0.0.0 --port 8000 --workers 4
 ```
 
----
-
-## 📁 Structure du Projet
-
-```
-app/
-├── main.py                 # Point d'entrée FastAPI
-├── api/
-│   └── v1/
-│       ├── router.py       # Routes principales
-│       └── routes/         # Endpoints groupés par domaine
-├── core/
-│   ├── config.py          # Configuration (Pydantic Settings)
-│   ├── constants.py       # Constantes
-│   ├── logging.py         # Setup logging
-│   └── security.py        # Auth & Security
-├── db/
-│   ├── session.py         # Session SQLAlchemy
-│   ├── base.py            # Base ORM
-│   └── models/            # Modèles SQLAlchemy
-├── repositories/          # Data access layer (DAL)
-├── schemas/               # Pydantic models (request/response)
-├── services/              # Business logic
-│   ├── algorithms/        # Algos de calcul
-│   ├── business/          # Services métier
-│   └── external_api/      # Intégrations externes
-├── utils/
-│   ├── exceptions.py      # Custom exceptions
-│   └── pagination.py      # Pagination utilities
-└── workers/               # Jobs & Scheduler
-```
 
 ---
 
@@ -227,21 +193,12 @@ Les variables d'environnement se trouvent dans `.env` (copier depuis `.env.examp
 
 Voir [core/config.py](core/config.py) pour la liste complète des configurations disponibles.
 
-### Variables essentielles
-```env
-DATABASE_URL=postgresql://user:password@host:5432/db_name
-ENV=development
-DEBUG=True
-SECRET_KEY=your-secret-key
-```
-
 ---
 
 ## 📖 Documentation
 
 - **FastAPI** : https://fastapi.tiangolo.com/
-- **SQLAlchemy 2.0** : https://docs.sqlalchemy.org/
-- **Pydantic** : https://docs.pydantic.dev/
+- **SQLModel** : https://sqlmodel.tiangolo.com/
 - **uv** : https://astral.sh/uv/
 
 ---
